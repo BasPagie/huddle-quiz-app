@@ -1,7 +1,7 @@
 interface ButtonProps {
   copy: string;
   variant?: "primary" | "secondary" | "success" | "danger";
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const variantStyles = {

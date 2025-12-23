@@ -1,0 +1,40 @@
+{
+  "title": "Sample Quiz",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "What is 2+2?",
+      "type": "multiple-choice",
+      "options": ["3", "4"],
+      "correctAnswer": "4",
+      "points": 5,
+      "timeLimit": 60
+    },
+    {
+      "id": "q2",
+      "text": "Is 2+2=4?",
+      "type": "true-false",
+      "correctAnswer": "true",
+      "points": 5,
+      "timeLimit": 60
+    },
+    {
+      "id": "q3",
+      "text": "What is 2+2?",
+      "type": "short-answer",
+      "correctAnswer": "4",
+      "points": 5,
+      "timeLimit": 60
+    },
+    {
+      "id": "q4",
+      "text": "Which is number?",
+      "type": "multiple-choice",
+      "options": ["3", "4"],
+      "correctAnswer": ["3", "4"],
+      "points": 5,
+      "timeLimit": 60
+    }
+  ],
+  "timeLimit": 60
+}
