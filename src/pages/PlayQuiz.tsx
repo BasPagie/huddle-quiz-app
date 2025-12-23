@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Card from "../components/Card";
 import Quiz from "../data/sampleQuiz.ts";
+import { useState } from "react";
 
 const PlayQuiz = () => {
+  const [selectedAnswer, setSelectedAnswer] = useState(99);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-neutral-900 text-white/90">
       <div className="max-w-screen-xl lg:wi mx-auto p-8 text-center flex flex-col gap-6">
@@ -15,9 +18,13 @@ const PlayQuiz = () => {
         <div className="px-3 flex justify-center gap-4 flex-wrap">
           {Quiz.questions[0].options.map((option, index) => (
             <Card
-              key={index}
+              id={String(index)}
               title={String.fromCharCode(65 + index)}
               copy={option}
+              isSelected={selectedAnswer === index}
+              onSelect={() => {
+                setSelectedAnswer(index);
+              }}
             />
           ))}
         </div>
