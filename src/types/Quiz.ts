@@ -9,5 +9,7 @@ export type Question = {
 export type Quiz = {
   id: string;
   title: string;
+  userId: string;
+  userName: string;
   questions: Question[];
 };
