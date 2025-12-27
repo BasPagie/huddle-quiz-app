@@ -2,7 +2,7 @@
 
 Currently setting up a quiz app that colleagues will be able to use for our weekly quiz at the end of the week!
 
-Currently in early development!
+In early development!
 
 ## Authors
 
