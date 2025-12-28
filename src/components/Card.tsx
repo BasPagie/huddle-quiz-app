@@ -3,9 +3,11 @@ import Button from "./Button";
 interface CardProps {
   title: string;
   copy?: string;
-  image?: string;
-  isSelected?: boolean;
   buttonCopy?: string;
+  image?: string;
+  isCorrectAnswer?: boolean;
+  isSelected?: boolean;
+  disabled?: boolean;
   onSelect?: () => void;
 }
 
@@ -13,15 +15,25 @@ const Card = ({
   title,
   copy,
   image,
+  isCorrectAnswer,
   isSelected,
   buttonCopy,
+  disabled,
   onSelect,
 }: CardProps) => {
+  let buttonStyling = "bg-slate-800";
+
+  if (isSelected && isCorrectAnswer) {
+    buttonStyling = "bg-green-900";
+  } else if (isSelected && !isCorrectAnswer) {
+    buttonStyling = "bg-red-900";
+  } else if (!isSelected && isCorrectAnswer && disabled) {
+    buttonStyling = "bg-green-900";
+  }
+
   return (
     <div
-      className={`option ${
-        isSelected ? "bg-green-900" : "bg-slate-800"
-      } p-6 rounded-lg shadow-md w-60 gap-4 flex flex-col items-center justify-between`}
+      className={`option ${buttonStyling} p-6 rounded-lg shadow-md w-60 gap-4 flex flex-col items-center justify-between`}
     >
       <h2 className="text-2xl font-semibold">{title}</h2>
       <p className="text-lg font-normal">{copy}</p>
@@ -30,6 +42,7 @@ const Card = ({
       <Button
         copy={buttonCopy || "Select"}
         variant="secondary"
+        disabled={disabled}
         onClick={onSelect}
       />
     </div>

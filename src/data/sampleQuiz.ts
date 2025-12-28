@@ -3,13 +3,13 @@ import type { Quiz } from "../types/Quiz.ts";
 
 const sampleQuizzes: Quiz[] = [
   {
-    id: "quiz-1",
+    id: "1",
     title: "Frontend Basics",
     userId: "user-123",
     userName: "Bas",
     questions: [
       {
-        id: "q1",
+        id: "1",
         text: "What is React?",
         options: [
           "A JavaScript library for building user interfaces",
@@ -20,7 +20,7 @@ const sampleQuizzes: Quiz[] = [
         correctOptionIndex: 0,
       },
       {
-        id: "q2",
+        id: "2",
         text: "What does JSX stand for?",
         options: [
           "JavaScript XML",
@@ -33,13 +33,13 @@ const sampleQuizzes: Quiz[] = [
     ],
   },
   {
-    id: "quiz-2",
+    id: "2",
     title: "JavaScript Fundamentals",
     userId: "user-456",
     userName: "Alice",
     questions: [
       {
-        id: "q1",
+        id: "1",
         text: "Which of the following is a primitive data type in JavaScript?",
         options: [
           "String",
@@ -50,7 +50,7 @@ const sampleQuizzes: Quiz[] = [
         correctOptionIndex: 0,
       }, 
       {
-        id: "q2",
+        id: "2",
         text: "What is the output of 'typeof null' in JavaScript?",
         options: [
           "'null'",
