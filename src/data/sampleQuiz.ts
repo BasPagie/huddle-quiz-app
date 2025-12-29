@@ -3,13 +3,13 @@ import type { Quiz } from "../types/Quiz.ts";
 
 const sampleQuizzes: Quiz[] = [
   {
-    id: "1",
+    id: 0,
     title: "Frontend Basics",
     userId: "user-123",
     userName: "Bas",
     questions: [
       {
-        id: "1",
+        id: 0,
         text: "What is React?",
         options: [
           "A JavaScript library for building user interfaces",
@@ -20,7 +20,7 @@ const sampleQuizzes: Quiz[] = [
         correctOptionIndex: 0,
       },
       {
-        id: "2",
+        id: 1,
         text: "What does JSX stand for?",
         options: [
           "JavaScript XML",
@@ -30,16 +30,27 @@ const sampleQuizzes: Quiz[] = [
         ],
         correctOptionIndex: 0,
       },
+      {
+        id: 2,
+        text: "Which hook is used for managing state in functional components?",
+        options: [ 
+          "useState",
+          "useEffect",
+          "useContext",
+          "useReducer",
+        ],
+        correctOptionIndex: 0,
+      }
     ],
   },
   {
-    id: "2",
+    id: 1,
     title: "JavaScript Fundamentals",
     userId: "user-456",
     userName: "Alice",
     questions: [
       {
-        id: "1",
+        id: 0,
         text: "Which of the following is a primitive data type in JavaScript?",
         options: [
           "String",
@@ -50,7 +61,7 @@ const sampleQuizzes: Quiz[] = [
         correctOptionIndex: 0,
       }, 
       {
-        id: "2",
+        id: 1,
         text: "What is the output of 'typeof null' in JavaScript?",
         options: [
           "'null'",
@@ -60,8 +71,19 @@ const sampleQuizzes: Quiz[] = [
         ],
         correctOptionIndex: 1,
       },
+      {
+        id: 2,
+        text: "Which method is used to add an element to the end of an array?",
+        options: [
+          "push()",
+          "pop()",
+          "shift()",
+          "unshift()",
+        ],
+        correctOptionIndex: 0,
+      }
     ],
-  },
+  }
 ];
 
 export default sampleQuizzes;

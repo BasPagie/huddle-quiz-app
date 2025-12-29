@@ -1,13 +1,13 @@
 
 export type Question = {
-  id: string;
+  id: number;
   text: string;
   options: string[];
   correctOptionIndex: number;
 };
 
 export type Quiz = {
-  id: string;
+  id: number;
   title: string;
   userId: string;
   userName: string;

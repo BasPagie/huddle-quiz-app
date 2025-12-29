@@ -12,14 +12,18 @@ const JoinQuiz = () => {
         <h1 className="text-5xl font-bold leading-tight">Join a quiz!</h1>
 
         <div className="px-3 flex justify-center gap-4 flex-wrap">
-          {Quiz.map((quiz) => (
+          {Quiz.map((quiz, index) => (
             <Card
               key={quiz.id}
               title={quiz.title}
               copy={"Created by: " + quiz.userName}
               buttonCopy="Play"
               onSelect={() => {
-                navigate("/play-quiz");
+                navigate("/play-quiz", {
+                  state: {
+                    selectedQuiz: index || 0,
+                  },
+                });
               }}
             />
           ))}

@@ -7,6 +7,7 @@ interface CardProps {
   image?: string;
   isCorrectAnswer?: boolean;
   isSelected?: boolean;
+  displayButton?: boolean;
   disabled?: boolean;
   onSelect?: () => void;
 }
@@ -18,6 +19,7 @@ const Card = ({
   isCorrectAnswer,
   isSelected,
   buttonCopy,
+  displayButton,
   disabled,
   onSelect,
 }: CardProps) => {
@@ -39,12 +41,15 @@ const Card = ({
       <p className="text-lg font-normal">{copy}</p>
 
       {image && <img src={image} alt={title} className="mx-auto" />}
-      <Button
-        copy={buttonCopy || "Select"}
-        variant="secondary"
-        disabled={disabled}
-        onClick={onSelect}
-      />
+
+      {displayButton !== false && (
+        <Button
+          copy={buttonCopy || "Select"}
+          variant="secondary"
+          disabled={disabled}
+          onClick={onSelect}
+        />
+      )}
     </div>
   );
 };

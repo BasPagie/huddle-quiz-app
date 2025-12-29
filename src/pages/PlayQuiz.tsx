@@ -2,7 +2,7 @@ import Button from "../components/Button";
 import Card from "../components/Card";
 import Quiz from "../data/sampleQuiz.ts";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const PlayQuiz = () => {
   // State to track current question index and selected answer
@@ -10,11 +10,13 @@ const PlayQuiz = () => {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [userAnswers, setUserAnswers] = useState<number[]>([]);
 
-  // ASCII code for 'A' to label options
+  // ASCII code for 'A' to label options & general variables
   const CHAR_CODE_A = 65;
+  const location = useLocation();
 
   // Data for the current question and quiz
-  const currentQuiz = Quiz[0];
+  const quizId = location.state?.selectedQuiz;
+  const currentQuiz = Quiz[quizId];
   const currentQuestion = currentQuiz.questions[currentQuestionIndex];
 
   // Navigate to results page if quiz is completed
@@ -29,7 +31,13 @@ const PlayQuiz = () => {
 
     if (isLastQuestion) {
       navigate("/results", {
-        state: { userAnswers: [...userAnswers, selectedAnswer as number] },
+        state: {
+          currentQuiz: currentQuiz,
+          userAnswers: [...userAnswers, selectedAnswer as number],
+          correctAnswers: currentQuiz.questions.map(
+            (q) => q.correctOptionIndex
+          ),
+        },
       });
     } else {
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
@@ -43,7 +51,7 @@ const PlayQuiz = () => {
           Quiz: {currentQuiz.title}
         </h1>
         <h2 className="text-5xl font-bold leading-tight">
-          {currentQuestion.id} - {currentQuestion.text}
+          {currentQuestion.id + 1} - {currentQuestion.text}
         </h2>
         <div className="px-3 flex justify-center gap-4 flex-wrap">
           {currentQuestion.options.map((option, index) => (
