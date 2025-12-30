@@ -3,6 +3,7 @@ import Button from "./Button";
 interface CardProps {
   title: string;
   copy?: string;
+  width?: string;
   buttonCopy?: string;
   image?: string;
   isCorrectAnswer?: boolean;
@@ -15,6 +16,7 @@ interface CardProps {
 const Card = ({
   title,
   copy,
+  width = "min-w-60",
   image,
   isCorrectAnswer,
   isSelected,
@@ -35,7 +37,7 @@ const Card = ({
 
   return (
     <div
-      className={`option ${buttonStyling} p-6 rounded-lg shadow-md w-60 gap-4 flex flex-col items-center justify-between`}
+      className={`option ${buttonStyling} p-6 rounded-lg shadow-md ${width} gap-4 flex flex-col items-center justify-between`}
     >
       <h2 className="text-2xl font-semibold">{title}</h2>
       <p className="text-lg font-normal">{copy}</p>
