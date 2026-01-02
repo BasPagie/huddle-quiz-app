@@ -6,12 +6,12 @@ import QuestionEditor from "../components/quizEditor/QuestionEditor";
 const CreateQuiz = () => {
   const initialQuiz = {
     id: 0,
-    title: "Enter Quiz Name...",
+    title: "Enter quiz name...",
     questions: [
       {
         id: 0,
         text: "Enter question text...",
-        options: ["Enter option text...", "Enter option text..."],
+        options: ["1. Enter option text...", "2. Enter option text..."],
         correctOptionIndex: 0,
       },
     ],
@@ -20,16 +20,13 @@ const CreateQuiz = () => {
   const [title, setTitle] = useState(initialQuiz.title);
   const [questions, setQuestions] = useState(initialQuiz.questions);
 
-  const handleQuestionChange = (
+  const handleQuestionUpdate = (
     questionIndex: number,
-    updatedQuestion: string
+    updatedQuestion: (typeof initialQuiz.questions)[0]
   ) => {
     setQuestions(
-      questions.map((q, i) =>
-        i === questionIndex ? { ...q, text: updatedQuestion } : q
-      )
+      questions.map((q, i) => (i === questionIndex ? updatedQuestion : q))
     );
-    console.log("Question text changed to:", updatedQuestion);
   };
 
   return (
@@ -58,17 +55,31 @@ const CreateQuiz = () => {
           {questions.map((question, index) => (
             <QuestionEditor
               key={index}
+              initialQuiz={initialQuiz}
               questionIndex={index}
               question={question}
-              initialQuiz={initialQuiz}
-              // onUpdate={handleQuestionChange}
+              onUpdate={handleQuestionUpdate}
+              onOptionButtonClick={() => {}}
             />
           ))}
 
           <div className="px-5 gap-4 flex justify-center items-center">
-            <Link to="/">
-              <Button copy="Save Quiz" variant="success" disabled={true} />
-            </Link>
+            <Button
+              copy="Check Current State"
+              variant="success"
+              disabled={false}
+              onClick={() => (
+                console.log("Quiz Saved! CURRENT STATE:"),
+                console.log("----------------------"),
+                console.log("Current Quiz Title:", title),
+                questions.map(
+                  (q, i) => (
+                    console.log(`Question ${i + 1} Title:`, q.text),
+                    console.log(`Question ${i + 1} Options:`, q.options)
+                  )
+                )
+              )}
+            />
           </div>
         </form>
 

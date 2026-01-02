@@ -1,5 +1,4 @@
 import Button from "../../components/Button";
-import InputCard from "../../components/InputCard";
 
 interface QuestionEditorProps {
   questionIndex: number;
@@ -19,7 +18,16 @@ interface QuestionEditorProps {
       correctOptionIndex: number;
     }[];
   };
-  onUpdate?: () => void;
+  onUpdate: (
+    questionIndex: number,
+    updatedQuestion: {
+      id: number;
+      text: string;
+      options: string[];
+      correctOptionIndex: number;
+    }
+  ) => void;
+  onOptionButtonClick: () => void;
 }
 
 const QuestionEditor = ({
@@ -27,7 +35,33 @@ const QuestionEditor = ({
   question,
   initialQuiz,
   onUpdate,
+  onOptionButtonClick,
 }: QuestionEditorProps) => {
+  const CHAR_CODE_A = 65;
+  const buttonStyling = "bg-neutral-800 text-white/90";
+  const width = "w-60";
+
+  const handleQuestionTitleChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const updatedQuestion = { ...question, text: e.target.value };
+    onUpdate(questionIndex, updatedQuestion);
+    console.log("Question Title changed to:", e.target.value);
+  };
+
+  const handleOptionChange = (
+    optionIndex: number,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const updatedQuestion = {
+      ...question,
+      options: question.options.map((opt, i) =>
+        i === optionIndex ? e.target.value : opt
+      ),
+    };
+    onUpdate(questionIndex, updatedQuestion);
+  };
+
   return (
     <div className="flex flex-row gap-6 text-center w-full max-w-4xl mb-6">
       <div
@@ -43,29 +77,49 @@ const QuestionEditor = ({
           maxLength={100}
           className="text-4xl font-bold  text-center p-3 rounded-lg w-full"
           placeholder={initialQuiz.questions[0].text}
-          onChange={
-            () => {
-              onUpdate();
-            }
-            // handleQuestionTextChange(e.target.value, questionIndex)
-          }
+          onChange={(e) => handleQuestionTitleChange(e)}
         />
         <div className="flex justify-between gap-4 flex-wrap items-center w-full">
           {question.options.map((option, optionIndex) => (
-            <InputCard
-              key={`question${questionIndex}Option${optionIndex}`}
-              id={optionIndex}
-              type="text"
-              name={`quiz${initialQuiz.id}Question${questionIndex}Option${option}`}
-              width="flex-grow"
-              copy={initialQuiz.questions[0].options[optionIndex]}
-              onChange={
-                () => {
-                  onUpdate();
-                }
-                // handleQuestionTextChange(e.target.value, optionIndex)
-              }
-            />
+            <div
+              className={`option ${buttonStyling} p-6 rounded-lg shadow-md ${width} gap-4 flex flex-col items-center justify-between`}
+            >
+              <h2 className="text-2xl font-semibold">
+                {String.fromCharCode(CHAR_CODE_A + optionIndex)}
+              </h2>
+              <input
+                key={optionIndex}
+                type={"text"}
+                id={`quiz${initialQuiz.id}Question${questionIndex}Option${optionIndex}`}
+                name={`quiz${initialQuiz.id}Question${questionIndex}Option${optionIndex}`}
+                className="text-lg font-normal text-center"
+                placeholder={initialQuiz.questions[0].options[optionIndex]}
+                required={true}
+                onChange={(e) => handleOptionChange(optionIndex, e)}
+              />
+
+              <div className="flex gap-2">
+                <Button
+                  copy={
+                    question.correctOptionIndex === optionIndex
+                      ? "Correct Answer"
+                      : "Set as Correct"
+                  }
+                  variant={
+                    question.correctOptionIndex === optionIndex
+                      ? "success"
+                      : "secondary"
+                  }
+                  onClick={onOptionButtonClick}
+                />
+                <Button
+                  copy={"X"}
+                  variant="secondary"
+                  disabled={true}
+                  onClick={onOptionButtonClick}
+                />
+              </div>
+            </div>
           ))}
           <Button
             copy="+"
