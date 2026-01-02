@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import sampleQuizzes from "../data/sampleQuiz.ts";
 import Button from "../components/Button";
+import Spinner from "../components/Spinner";
 import QuestionEditor from "../components/quizEditor/QuestionEditor";
 
 const CreateQuiz = () => {
+  const navigate = useNavigate();
   const initialQuiz = {
     id: 0,
     title: "Enter quiz name...",
@@ -11,7 +14,7 @@ const CreateQuiz = () => {
       {
         id: 0,
         text: "Enter question text...",
-        options: ["1. Enter option text...", "2. Enter option text..."],
+        options: ["Enter option text...", "Enter option text..."],
         correctOptionIndex: 0,
       },
     ],
@@ -19,6 +22,8 @@ const CreateQuiz = () => {
 
   const [title, setTitle] = useState(initialQuiz.title);
   const [questions, setQuestions] = useState(initialQuiz.questions);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDone, setIsDone] = useState(false);
 
   const handleQuestionUpdate = (
     questionIndex: number,
@@ -29,9 +34,51 @@ const CreateQuiz = () => {
     );
   };
 
+  const addQuestion = () => {
+    const newId =
+      questions.length > 0 ? Math.max(...questions.map((q) => q.id)) + 1 : 0;
+    const newQuestion = {
+      id: newId,
+      text: "Enter question text...",
+      options: ["Enter option text...", "Enter option text..."],
+      correctOptionIndex: 0,
+    };
+    setQuestions([...questions, newQuestion]);
+  };
+
+  const removeQuestion = (optionIndex: number) => {
+    const updatedQuestion = questions.filter((_, i) => i !== optionIndex);
+    setQuestions(updatedQuestion);
+  };
+
+  const saveQuizLocally = () => {
+    setIsLoading(true);
+    setIsDone(false);
+    const newQuiz = {
+      id: sampleQuizzes.length,
+      title: title,
+      userName: "General",
+      questions: questions,
+    };
+    const convertedQuiz = JSON.stringify(newQuiz);
+    localStorage.setItem(`newQuiz${sampleQuizzes.length}`, convertedQuiz);
+
+    // Show loading spinner first
+    setTimeout(() => {
+      if (localStorage.getItem(`newQuiz${sampleQuizzes.length}`) !== null) {
+        setIsDone(true);
+        // Keep the success message visible for users to read
+        setTimeout(() => {
+          setIsLoading(false);
+          navigate("/");
+        }, 1500);
+      }
+    }, 1000);
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-neutral-900 text-white/90">
-      <div className="max-w-screen-xl mx-auto p-8 text-center flex flex-col gap-6 items-center">
+      <div className="max-w-[60%] mx-auto p-8 text-center flex flex-col gap-6 items-center">
         <h1 className="text-2xl font-bold leading-tight">Create a quiz!</h1>
         <form
           onSubmit={() => {}}
@@ -51,44 +98,46 @@ const CreateQuiz = () => {
               console.log("Quiz title changed to:", title);
             }}
           />
-
-          {questions.map((question, index) => (
-            <QuestionEditor
-              key={index}
-              initialQuiz={initialQuiz}
-              questionIndex={index}
-              question={question}
-              onUpdate={handleQuestionUpdate}
-              onOptionButtonClick={() => {}}
-            />
-          ))}
-
-          <div className="px-5 gap-4 flex justify-center items-center">
+          <div className="flex flex-row flex-wrap gap-6 text-center justify-center w-full mb-6">
+            {questions.map((question, index) => (
+              <QuestionEditor
+                key={index}
+                initialQuiz={initialQuiz}
+                questionIndex={index}
+                question={question}
+                onUpdate={handleQuestionUpdate}
+                onRemove={removeQuestion}
+              />
+            ))}
+          </div>
+          <div className="gap-4 flex justify-between items-center w-full">
+            <Link to="/">
+              <Button copy="Back home" variant="primary" />
+            </Link>
             <Button
-              copy="Check Current State"
+              copy="Submit Quiz"
+              variant="secondary"
+              onClick={saveQuizLocally}
+            />
+            <Button
+              copy="Add New Question"
               variant="success"
-              disabled={false}
-              onClick={() => (
-                console.log("Quiz Saved! CURRENT STATE:"),
-                console.log("----------------------"),
-                console.log("Current Quiz Title:", title),
-                questions.map(
-                  (q, i) => (
-                    console.log(`Question ${i + 1} Title:`, q.text),
-                    console.log(`Question ${i + 1} Options:`, q.options)
-                  )
-                )
-              )}
+              onClick={addQuestion}
             />
           </div>
         </form>
-
-        <div className="px-3 gap-4 flex justify-center">
-          <Link to="/">
-            <Button copy="Back home" variant="primary" />
-          </Link>
-        </div>
       </div>
+      {isLoading && (
+        <div className="fixed flex justify-center items-center top-0 bg-neutral-900/[0.8] w-full h-full">
+          {isDone ? (
+            <div className="text-2xl font-bold text-green-200">
+              Quiz saved successfully!
+            </div>
+          ) : (
+            <Spinner size="16" />
+          )}
+        </div>
+      )}
     </div>
   );
 };
