@@ -14,9 +14,6 @@ const Results = () => {
 
   const resultMessage = scoreMessage(finalScore, questionAmount);
 
-  console.log("Results received:", location.state);
-  console.log("currentQuiz value:", currentQuiz);
-
   return (
     <>
       <div className="absolute h-full w-full top-0 left-0 pointer-events-none">

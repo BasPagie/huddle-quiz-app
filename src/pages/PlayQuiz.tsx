@@ -1,8 +1,20 @@
 import Button from "../components/Button";
 import Card from "../components/Card";
-import Quiz from "../data/sampleQuiz.ts";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+
+// Define a proper Quiz type
+interface Quiz {
+  id: number;
+  title: string;
+  userName: string;
+  questions: {
+    id: number;
+    text: string;
+    options: string[];
+    correctOptionIndex: number;
+  }[];
+}
 
 const PlayQuiz = () => {
   // State to track current question index and selected answer
@@ -16,7 +28,9 @@ const PlayQuiz = () => {
 
   // Data for the current question and quiz
   const quizId = location.state?.selectedQuiz;
-  const currentQuiz = Quiz[quizId];
+  const allQuizzes = location.state?.allQuizzes;
+
+  const currentQuiz: Quiz = allQuizzes[quizId];
   const currentQuestion = currentQuiz.questions[currentQuestionIndex];
 
   // Navigate to results page if quiz is completed

@@ -3,10 +3,10 @@ import type { Quiz } from "../types/Quiz.ts";
 
 const sampleQuizzes: Quiz[] = [
   {
-    id: 0,
+    id: 98,
     title: "Frontend Basics",
-    userId: "user-123",
-    userName: "Bas",
+    userId: "user-1",
+    userName: "Admin",
     questions: [
       {
         id: 0,
@@ -44,10 +44,10 @@ const sampleQuizzes: Quiz[] = [
     ],
   },
   {
-    id: 1,
+    id: 99,
     title: "JavaScript Fundamentals",
-    userId: "user-456",
-    userName: "Alice",
+    userId: "user-1",
+    userName: "Admin",
     questions: [
       {
         id: 0,

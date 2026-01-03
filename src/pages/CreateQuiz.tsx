@@ -51,26 +51,33 @@ const CreateQuiz = () => {
     setQuestions(updatedQuestion);
   };
 
-  const saveQuizLocally = () => {
+  const saveQuizLocally = (e: React.FormEvent) => {
+    e.preventDefault();
     setIsLoading(true);
     setIsDone(false);
+
     const newQuiz = {
       id: sampleQuizzes.length,
       title: title,
+      userId: "general-user",
       userName: "General",
       questions: questions,
     };
-    const convertedQuiz = JSON.stringify(newQuiz);
-    localStorage.setItem(`newQuiz${sampleQuizzes.length}`, convertedQuiz);
+
+    const stored = localStorage.getItem("quizzes");
+    const existingQuizzes = stored ? JSON.parse(stored) : [];
+
+    const updatedQuizzes = [...existingQuizzes, newQuiz];
+    localStorage.setItem(`quizzes`, JSON.stringify(updatedQuizzes));
 
     // Show loading spinner first
     setTimeout(() => {
-      if (localStorage.getItem(`newQuiz${sampleQuizzes.length}`) !== null) {
+      if (localStorage.getItem(`quizzes`) !== null) {
         setIsDone(true);
         // Keep the success message visible for users to read
         setTimeout(() => {
           setIsLoading(false);
-          navigate("/");
+          navigate("/join-quiz");
         }, 1500);
       }
     }, 1000);
@@ -81,7 +88,7 @@ const CreateQuiz = () => {
       <div className="max-w-[60%] mx-auto p-8 text-center flex flex-col gap-6 items-center">
         <h1 className="text-2xl font-bold leading-tight">Create a quiz!</h1>
         <form
-          onSubmit={() => {}}
+          onSubmit={saveQuizLocally}
           method="post"
           className="flex flex-col items-center"
         >
@@ -95,7 +102,6 @@ const CreateQuiz = () => {
             placeholder={initialQuiz.title}
             onChange={(e) => {
               setTitle(e.target.value);
-              console.log("Quiz title changed to:", title);
             }}
           />
           <div className="flex flex-row flex-wrap gap-6 text-center justify-center w-full mb-6">
@@ -114,11 +120,7 @@ const CreateQuiz = () => {
             <Link to="/">
               <Button copy="Back home" variant="primary" />
             </Link>
-            <Button
-              copy="Submit Quiz"
-              variant="secondary"
-              onClick={saveQuizLocally}
-            />
+            <Button copy="Submit Quiz" variant="secondary" type="submit" />
             <Button
               copy="Add New Question"
               variant="success"

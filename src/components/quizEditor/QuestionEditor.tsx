@@ -43,7 +43,6 @@ const QuestionEditor = ({
   const handleQuestionTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedQuestion = { ...question, text: e.target.value };
     onUpdate(questionIndex, updatedQuestion);
-    console.log("Question Text changed to:", e.target.value);
   };
 
   const handleOptionChange = (
