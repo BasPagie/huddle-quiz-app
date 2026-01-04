@@ -1,5 +1,4 @@
 import Button from "../../components/Button";
-import InputCard from "../../components/InputCard";
 
 interface QuestionEditorProps {
   questionIndex: number;
@@ -19,7 +18,16 @@ interface QuestionEditorProps {
       correctOptionIndex: number;
     }[];
   };
-  onUpdate?: () => void;
+  onUpdate: (
+    questionIndex: number,
+    updatedQuestion: {
+      id: number;
+      text: string;
+      options: string[];
+      correctOptionIndex: number;
+    }
+  ) => void;
+  onRemove: (questionIndex: number) => void;
 }
 
 const QuestionEditor = ({
@@ -27,13 +35,72 @@ const QuestionEditor = ({
   question,
   initialQuiz,
   onUpdate,
+  onRemove,
 }: QuestionEditorProps) => {
+  const CHAR_CODE_A = 65;
+  const defaultOptionText = "Enter option text...";
+
+  const handleQuestionTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updatedQuestion = { ...question, text: e.target.value };
+    onUpdate(questionIndex, updatedQuestion);
+  };
+
+  const handleOptionChange = (
+    optionIndex: number,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const updatedQuestion = {
+      ...question,
+      options: question.options.map((opt, i) =>
+        i === optionIndex ? e.target.value : opt
+      ),
+    };
+    onUpdate(questionIndex, updatedQuestion);
+  };
+
+  const setCorrectAnswer = (optionIndex: number) => {
+    const updatedQuestion = {
+      ...question,
+      correctOptionIndex: optionIndex,
+    };
+    onUpdate(questionIndex, updatedQuestion);
+  };
+
+  const handleAddOption = () => {
+    const newOption = "Add option text...";
+    const updatedQuestion = {
+      ...question,
+      options: [...question.options, newOption],
+    };
+    onUpdate(questionIndex, updatedQuestion);
+  };
+
+  const handleRemoveOption = (optionIndex: number) => {
+    if (question.options.length <= 2) return; // Ensure at least 2 options remain
+    const updatedQuestion = {
+      ...question,
+      options: question.options.filter((_, i) => i !== optionIndex),
+    };
+    onUpdate(questionIndex, updatedQuestion);
+  };
+
   return (
-    <div className="flex flex-row gap-6 text-center w-full max-w-4xl mb-6">
+    <>
       <div
         key={`questionContainer${questionIndex}`}
-        className="bg-slate-700 p-8 rounded-lg shadow-md flex flex-col gap-6 items-center max-w-fit"
+        className="relative bg-slate-700 p-8 rounded-lg shadow-md flex flex-col gap-6 items-center flex-wrap w-full"
       >
+        <div className="absolute top-0 right-0 p-4">
+          {questionIndex !== 0 && (
+            <Button
+              copy="X"
+              variant="danger"
+              onClick={() => {
+                onRemove(questionIndex);
+              }}
+            />
+          )}
+        </div>
         <input
           key={questionIndex}
           type="text"
@@ -41,53 +108,64 @@ const QuestionEditor = ({
           name={`quiz${initialQuiz.id}Question${questionIndex}`}
           required
           maxLength={100}
-          className="text-4xl font-bold  text-center p-3 rounded-lg w-full"
+          className="text-4xl font-bold  text-center p-3 rounded-lg leading-none w-full"
           placeholder={initialQuiz.questions[0].text}
-          onChange={
-            () => {
-              onUpdate();
-            }
-            // handleQuestionTextChange(e.target.value, questionIndex)
-          }
+          onChange={(e) => handleQuestionTextChange(e)}
         />
-        <div className="flex justify-between gap-4 flex-wrap items-center w-full">
+        <div className="flex flex-wrap justify-center items-center gap-4">
           {question.options.map((option, optionIndex) => (
-            <InputCard
-              key={`question${questionIndex}Option${optionIndex}`}
-              id={optionIndex}
-              type="text"
-              name={`quiz${initialQuiz.id}Question${questionIndex}Option${option}`}
-              width="flex-grow"
-              copy={initialQuiz.questions[0].options[optionIndex]}
-              onChange={
-                () => {
-                  onUpdate();
-                }
-                // handleQuestionTextChange(e.target.value, optionIndex)
-              }
-            />
+            <div
+              key={`optionContainer${optionIndex}`}
+              className={`option bg-neutral-800 text-white/90 p-6 rounded-lg shadow-md w-60 gap-4 flex flex-col items-center justify-between`}
+            >
+              <h2 className="text-2xl font-semibold">
+                {String.fromCharCode(CHAR_CODE_A + optionIndex)}
+              </h2>
+              <input
+                key={optionIndex}
+                type={"text"}
+                id={`quiz${initialQuiz.id}Question${questionIndex}Option${optionIndex}`}
+                name={`quiz${initialQuiz.id}Question${questionIndex}Option${optionIndex}`}
+                className="text-lg font-normal text-center"
+                placeholder={defaultOptionText}
+                required={true}
+                onChange={(e) => handleOptionChange(optionIndex, e)}
+              />
+
+              <div className="flex gap-2">
+                <Button
+                  copy={
+                    question.correctOptionIndex === optionIndex
+                      ? "Correct Answer"
+                      : "Set as Correct"
+                  }
+                  variant={
+                    question.correctOptionIndex === optionIndex
+                      ? "success"
+                      : "secondary"
+                  }
+                  onClick={() => setCorrectAnswer(optionIndex)}
+                />
+                <Button
+                  copy="X"
+                  variant="danger"
+                  disabled={question.options.length <= 2 || optionIndex < 2}
+                  onClick={() => handleRemoveOption(optionIndex)}
+                />
+              </div>
+            </div>
           ))}
-          <Button
-            copy="+"
-            variant="success"
-            onClick={() => console.log("Add option clicked")}
-          />
+          {question.options.length < 4 && (
+            <Button
+              copy="Add Option"
+              variant="success"
+              onClick={handleAddOption}
+            />
+          )}
         </div>
       </div>
-      <Button
-        copy="+"
-        variant="success"
-        onClick={() => console.log("Add question clicked")}
-      />
-    </div>
+    </>
   );
 };
-
-// function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-//   event.preventDefault();
-//   // const formEl = event.currentTarget;
-//   // const formData = new FormData(formEl);
-//   // const email = formData.get("email");
-// }
 
 export default QuestionEditor;
