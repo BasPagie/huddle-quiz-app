@@ -1,8 +1,8 @@
-import Button from "../components/Button";
-import Card from "../components/Card";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import type { Quiz } from "../types/quiz.ts";
+
+import { Button, Card } from "@/components";
+import type { Quiz } from "@/types";
 
 const PlayQuiz = () => {
   // State to track current question index and selected answer
