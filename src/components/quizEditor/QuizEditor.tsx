@@ -1,48 +1,19 @@
-import Button from "../../components/Button";
+import Button from "../Button";
+import type { QuizEditorProps } from "../../types/quiz";
+import { initialQuiz } from "../../data/sampleQuiz.ts";
 
-interface QuestionEditorProps {
-  questionIndex: number;
-  question: {
-    id: number;
-    text: string;
-    options: string[];
-    correctOptionIndex: number;
-  };
-  initialQuiz: {
-    id: number;
-    title: string;
-    questions: {
-      id: number;
-      text: string;
-      options: string[];
-      correctOptionIndex: number;
-    }[];
-  };
-  onUpdate: (
-    questionIndex: number,
-    updatedQuestion: {
-      id: number;
-      text: string;
-      options: string[];
-      correctOptionIndex: number;
-    }
-  ) => void;
-  onRemove: (questionIndex: number) => void;
-}
-
-const QuestionEditor = ({
+const QuizEditor = ({
   questionIndex,
   question,
-  initialQuiz,
-  onUpdate,
-  onRemove,
-}: QuestionEditorProps) => {
+  onQuestionUpdate,
+  onQuestionRemove,
+}: QuizEditorProps) => {
   const CHAR_CODE_A = 65;
   const defaultOptionText = "Enter option text...";
 
   const handleQuestionTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedQuestion = { ...question, text: e.target.value };
-    onUpdate(questionIndex, updatedQuestion);
+    onQuestionUpdate(questionIndex, updatedQuestion);
   };
 
   const handleOptionChange = (
@@ -55,7 +26,7 @@ const QuestionEditor = ({
         i === optionIndex ? e.target.value : opt
       ),
     };
-    onUpdate(questionIndex, updatedQuestion);
+    onQuestionUpdate(questionIndex, updatedQuestion);
   };
 
   const setCorrectAnswer = (optionIndex: number) => {
@@ -63,7 +34,7 @@ const QuestionEditor = ({
       ...question,
       correctOptionIndex: optionIndex,
     };
-    onUpdate(questionIndex, updatedQuestion);
+    onQuestionUpdate(questionIndex, updatedQuestion);
   };
 
   const handleAddOption = () => {
@@ -72,7 +43,7 @@ const QuestionEditor = ({
       ...question,
       options: [...question.options, newOption],
     };
-    onUpdate(questionIndex, updatedQuestion);
+    onQuestionUpdate(questionIndex, updatedQuestion);
   };
 
   const handleRemoveOption = (optionIndex: number) => {
@@ -81,7 +52,7 @@ const QuestionEditor = ({
       ...question,
       options: question.options.filter((_, i) => i !== optionIndex),
     };
-    onUpdate(questionIndex, updatedQuestion);
+    onQuestionUpdate(questionIndex, updatedQuestion);
   };
 
   return (
@@ -96,7 +67,7 @@ const QuestionEditor = ({
               copy="X"
               variant="danger"
               onClick={() => {
-                onRemove(questionIndex);
+                onQuestionRemove(questionIndex);
               }}
             />
           )}
@@ -113,7 +84,7 @@ const QuestionEditor = ({
           onChange={(e) => handleQuestionTextChange(e)}
         />
         <div className="flex flex-wrap justify-center items-center gap-4">
-          {question.options.map((option, optionIndex) => (
+          {question.options.map((_, optionIndex) => (
             <div
               key={`optionContainer${optionIndex}`}
               className={`option bg-neutral-800 text-white/90 p-6 rounded-lg shadow-md w-60 gap-4 flex flex-col items-center justify-between`}
@@ -168,4 +139,4 @@ const QuestionEditor = ({
   );
 };
 
-export default QuestionEditor;
+export default QuizEditor;

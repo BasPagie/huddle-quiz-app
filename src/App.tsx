@@ -34,8 +34,8 @@ const App = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-neutral-900 text-white/90">
-      <div className="max-w-screen-xl mx-auto p-8 text-center flex flex-col gap-6">
+    <main className="min-h-screen flex items-center justify-center bg-neutral-900 text-white/90">
+      <section className="max-w-screen-xl mx-auto p-8 text-center flex flex-col gap-6">
         <img
           ref={huddleLogo}
           id="huddleLogo"
@@ -56,8 +56,8 @@ const App = () => {
             <Button copy="Join Quiz" variant="secondary" />
           </Link>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 
