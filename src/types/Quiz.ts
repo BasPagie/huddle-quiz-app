@@ -57,6 +57,16 @@ export interface QuizEditorProps {
   onQuestionRemove: (questionIndex: number) => void;
 }
 
+export interface OptionCardProps {
+  questionIndex: number;
+  optionIndex: number;
+  isCorrect: boolean;
+  canRemove: boolean;
+  onTextChange: (text: string) => void;
+  onSetCorrect: () => void;
+  onRemove: () => void;
+}
+
 export interface UseQuizFormReturn {
   title: string;
   questions: typeof initialQuiz.questions;
