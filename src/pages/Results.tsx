@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
-import Button from "../components/Button";
 import Confetti from "react-confetti-boom";
+
+import { Button } from "@/components";
 
 const Results = () => {
   const location = useLocation();

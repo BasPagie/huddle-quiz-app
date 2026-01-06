@@ -1,9 +1,9 @@
-// useQuizForm.ts
 import { useState } from 'react';
-import { initialQuiz, sampleQuizzes } from '../data/sampleQuiz';
-import { generateQuizId, loadQuizzes, saveQuizLocalStorage } from '../services/quizServices';
-import type { UseQuizFormReturn } from '../types/quiz';
-import { DEFAULT_QUESTION, DEFAULT_USER_ID, DEFAULT_USER_NAME } from '../constants/quiz';
+
+import { DEFAULT_QUESTION, DEFAULT_USER_ID, DEFAULT_USER_NAME } from '@/constants';
+import { initialQuiz, sampleQuizzes } from '@/data/sampleQuiz';
+import { generateQuizId, loadQuizzes, saveQuizLocalStorage } from '@/services';
+import type { UseQuizFormReturn } from '@/types';
 
 export const useQuizForm = (): UseQuizFormReturn => {
     const [title, setTitle] = useState("");

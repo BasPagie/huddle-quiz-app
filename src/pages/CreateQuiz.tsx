@@ -1,8 +1,9 @@
-import QuizForm from "../components/quizEditor/QuizForm.tsx";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import SaveQuizModal from "../components/quizEditor/SaveQuizModal.tsx";
-import { useQuizForm } from "../hooks/useQuizForm.ts";
+
+import QuizForm from "@/components/quizEditor/QuizForm";
+import SaveQuizModal from "@/components/quizEditor/SaveQuizModal";
+import { useQuizForm } from "@/hooks";
 
 const CreateQuiz = () => {
   const LOADING_DELAY = 1000;

@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import type { QuizFormProps } from "../../types/quiz.ts";
-import Button from "../Button";
-import QuizEditor from "./QuizEditor.tsx";
-import { initialQuiz } from "../../data/sampleQuiz.ts";
+
+import { Button } from "@/components";
+import QuizEditor from "@/components/quizEditor/QuizEditor";
+import { initialQuiz } from "@/data/sampleQuiz";
+import type { QuizFormProps } from "@/types";
 
 function QuizForm({
   title,

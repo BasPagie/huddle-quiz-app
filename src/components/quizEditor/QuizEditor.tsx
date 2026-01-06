@@ -1,6 +1,6 @@
-import Button from "../Button";
-import type { QuizEditorProps } from "../../types/quiz";
-import { initialQuiz } from "../../data/sampleQuiz.ts";
+import { Button } from "@/components";
+import { initialQuiz } from "@/data/sampleQuiz";
+import type { QuizEditorProps } from "@/types";
 
 const QuizEditor = ({
   questionIndex,

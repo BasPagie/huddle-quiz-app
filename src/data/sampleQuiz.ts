@@ -1,5 +1,4 @@
-
-import type { Quiz } from "../types/quiz.ts";
+import type { Quiz } from "@/types";
 
 const sampleQuizzes: Quiz[] = [
   {

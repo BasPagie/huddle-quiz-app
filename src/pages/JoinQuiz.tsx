@@ -1,10 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
-import { sampleQuizzes } from "../data/sampleQuiz.ts";
-import Button from "../components/Button";
-import Card from "../components/Card";
 import { useEffect, useState } from "react";
-import type { Quiz } from "../types/quiz.ts";
-import { loadQuizzes, clearQuizzes } from "../services/quizServices.tsx";
+import { Link, useNavigate } from "react-router-dom";
+
+import { Button, Card } from "@/components";
+import { sampleQuizzes } from "@/data/sampleQuiz";
+import { loadQuizzes, clearQuizzes } from "@/services";
+import type { Quiz } from "@/types";
 
 const JoinQuiz = () => {
   const navigate = useNavigate();
