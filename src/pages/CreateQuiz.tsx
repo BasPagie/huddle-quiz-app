@@ -1,84 +1,56 @@
+import QuizForm from "../components/quizEditor/QuizForm.tsx";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import Button from "../components/Button";
-import QuestionEditor from "../components/quizEditor/QuestionEditor";
+import { useNavigate } from "react-router-dom";
+import SaveQuizModal from "../components/quizEditor/SaveQuizModal.tsx";
+import { useQuizForm } from "../hooks/useQuizForm.ts";
 
 const CreateQuiz = () => {
-  const initialQuiz = {
-    id: 0,
-    title: "Enter Quiz Name...",
-    questions: [
-      {
-        id: 0,
-        text: "Enter question text...",
-        options: ["Enter option text...", "Enter option text..."],
-        correctOptionIndex: 0,
-      },
-    ],
-  };
+  const LOADING_DELAY = 1000;
+  const SUCCESS_MESSAGE_DURATION = 1500;
+  const navigate = useNavigate();
 
-  const [title, setTitle] = useState(initialQuiz.title);
-  const [questions, setQuestions] = useState(initialQuiz.questions);
+  const {
+    title,
+    questions,
+    setTitle,
+    handleQuestionUpdate,
+    addQuestion,
+    removeQuestion,
+    saveQuiz,
+  } = useQuizForm();
 
-  const handleQuestionChange = (
-    questionIndex: number,
-    updatedQuestion: string
-  ) => {
-    setQuestions(
-      questions.map((q, i) =>
-        i === questionIndex ? { ...q, text: updatedQuestion } : q
-      )
-    );
-    console.log("Question text changed to:", updatedQuestion);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDone, setIsDone] = useState(false);
+
+  const runForm = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    setTimeout(() => {
+      const success = saveQuiz();
+      if (success) {
+        setIsDone(true);
+        setTimeout(() => {
+          setIsLoading(false);
+          navigate("/join-quiz");
+        }, SUCCESS_MESSAGE_DURATION);
+      }
+    }, LOADING_DELAY);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-neutral-900 text-white/90">
-      <div className="max-w-screen-xl mx-auto p-8 text-center flex flex-col gap-6 items-center">
-        <h1 className="text-2xl font-bold leading-tight">Create a quiz!</h1>
-        <form
-          onSubmit={() => {}}
-          method="post"
-          className="flex flex-col items-center"
-        >
-          <input
-            type="text"
-            id="quizTitle"
-            name="quizTitle"
-            required
-            maxLength={100}
-            className="text-5xl w-full font-bold text-center mb-5 p-5 pt-4 bg-slate-700 rounded-lg"
-            placeholder={initialQuiz.title}
-            onChange={(e) => {
-              setTitle(e.target.value);
-              console.log("Quiz title changed to:", title);
-            }}
-          />
-
-          {questions.map((question, index) => (
-            <QuestionEditor
-              key={index}
-              questionIndex={index}
-              question={question}
-              initialQuiz={initialQuiz}
-              // onUpdate={handleQuestionChange}
-            />
-          ))}
-
-          <div className="px-5 gap-4 flex justify-center items-center">
-            <Link to="/">
-              <Button copy="Save Quiz" variant="success" disabled={true} />
-            </Link>
-          </div>
-        </form>
-
-        <div className="px-3 gap-4 flex justify-center">
-          <Link to="/">
-            <Button copy="Back home" variant="primary" />
-          </Link>
-        </div>
-      </div>
-    </div>
+    <main className="min-h-screen flex items-center justify-center bg-neutral-900 text-white/90">
+      <QuizForm
+        title={title}
+        questions={questions}
+        onTitleChange={setTitle}
+        onQuestionUpdate={handleQuestionUpdate}
+        onQuestionRemove={removeQuestion}
+        onQuestionAdd={addQuestion}
+        runForm={runForm}
+      />
+      {isLoading && <SaveQuizModal isDone={isDone} />}
+    </main>
   );
 };
 

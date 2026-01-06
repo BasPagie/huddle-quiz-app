@@ -1,8 +1,8 @@
 import Button from "../components/Button";
 import Card from "../components/Card";
-import Quiz from "../data/sampleQuiz.ts";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import type { Quiz } from "../types/quiz.ts";
 
 const PlayQuiz = () => {
   // State to track current question index and selected answer
@@ -13,14 +13,22 @@ const PlayQuiz = () => {
   // ASCII code for 'A' to label options & general variables
   const CHAR_CODE_A = 65;
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Data for the current question and quiz
   const quizId = location.state?.selectedQuiz;
-  const currentQuiz = Quiz[quizId];
+  const allQuizzes = location.state?.allQuizzes;
+
+  // Redirect to join-quiz if no quiz data
+  if (!allQuizzes || quizId === undefined || !allQuizzes[quizId]) {
+    navigate("/join-quiz");
+    return null;
+  }
+
+  const currentQuiz: Quiz = allQuizzes[quizId];
   const currentQuestion = currentQuiz.questions[currentQuestionIndex];
 
   // Navigate to results page if quiz is completed
-  const navigate = useNavigate();
   const isLastQuestion =
     currentQuestionIndex === currentQuiz.questions.length - 1;
 
@@ -33,6 +41,8 @@ const PlayQuiz = () => {
       navigate("/results", {
         state: {
           currentQuiz: currentQuiz,
+          quizIndex: quizId,
+          allQuizzes: allQuizzes,
           userAnswers: [...userAnswers, selectedAnswer as number],
           correctAnswers: currentQuiz.questions.map(
             (q) => q.correctOptionIndex

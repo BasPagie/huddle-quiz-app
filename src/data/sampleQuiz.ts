@@ -1,12 +1,12 @@
 
-import type { Quiz } from "../types/Quiz.ts";
+import type { Quiz } from "../types/quiz.ts";
 
 const sampleQuizzes: Quiz[] = [
   {
     id: 0,
     title: "Frontend Basics",
-    userId: "user-123",
-    userName: "Bas",
+    userId: "user-1",
+    userName: "Admin",
     questions: [
       {
         id: 0,
@@ -46,8 +46,8 @@ const sampleQuizzes: Quiz[] = [
   {
     id: 1,
     title: "JavaScript Fundamentals",
-    userId: "user-456",
-    userName: "Alice",
+    userId: "user-1",
+    userName: "Admin",
     questions: [
       {
         id: 0,
@@ -86,4 +86,20 @@ const sampleQuizzes: Quiz[] = [
   }
 ];
 
-export default sampleQuizzes;
+const initialQuiz = {
+  id: 0,
+  title: "Enter quiz name...",
+  userId: "user-1",
+  userName: "Admin",
+  questions: [
+    {
+      id: 0,
+      text: "Enter question text...",
+      options: ["Enter option text...", "Enter option text..."],
+      correctOptionIndex: 0,
+    },
+  ],
+};
+
+
+export {sampleQuizzes, initialQuiz};

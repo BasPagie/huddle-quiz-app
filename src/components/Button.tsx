@@ -10,7 +10,7 @@ const variantStyles = {
   primary: "enabled:bg-violet-500 enabled:hover:bg-violet-600",
   secondary: "enabled:bg-sky-500 enabled:hover:bg-sky-600",
   success: "enabled:bg-green-500 enabled:hover:bg-green-600",
-  danger: "enabled:bg-red-500 enabled:hover:bg-red-600",
+  danger: "enabled:bg-red-700 enabled:hover:bg-red-600",
 } as const;
 
 const Button = ({

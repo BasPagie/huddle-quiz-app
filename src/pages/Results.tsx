@@ -5,7 +5,8 @@ import Confetti from "react-confetti-boom";
 const Results = () => {
   const location = useLocation();
 
-  const currentQuiz = location.state?.currentQuiz || 0;
+  const quizIndex = location.state?.quizIndex;
+  const allQuizzes = location.state?.allQuizzes;
   const userAnswers = location.state?.userAnswers || [];
   const correctAnswers = location.state?.correctAnswers || [];
 
@@ -13,9 +14,6 @@ const Results = () => {
   const questionAmount = correctAnswers.length;
 
   const resultMessage = scoreMessage(finalScore, questionAmount);
-
-  console.log("Results received:", location.state);
-  console.log("currentQuiz value:", currentQuiz);
 
   return (
     <>
@@ -64,7 +62,10 @@ const Results = () => {
           </div>
 
           <div className="px-3 gap-4 flex justify-center">
-            <Link to="/play-quiz" state={{ selectedQuiz: currentQuiz.id }}>
+            <Link
+              to="/play-quiz"
+              state={{ selectedQuiz: quizIndex, allQuizzes: allQuizzes }}
+            >
               <Button copy="Restart" variant="primary" />
             </Link>
             <Link to="/join-quiz">
