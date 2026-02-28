@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { Button, Card } from "@/components";
@@ -8,18 +8,13 @@ import type { Quiz } from "@/types";
 
 const JoinQuiz = () => {
   const navigate = useNavigate();
-  const [userQuizzes, setUserQuizzes] = useState<Quiz[]>([]);
-
-  useEffect(() => {
-    const quizzesFromStorage = loadQuizzes();
-    setUserQuizzes(quizzesFromStorage);
-  }, []);
+  const [userQuizzes] = useState<Quiz[]>(() => loadQuizzes());
 
   const allQuizzes = [...sampleQuizzes, ...userQuizzes];
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-neutral-900 text-white/90">
-      <section className="max-w-screen-xl mx-auto p-8 text-center flex flex-col gap-6">
+      <section className="max-w-7xl mx-auto p-8 text-center flex flex-col gap-6">
         <h1 className="text-5xl font-bold leading-tight">Join a quiz!</h1>
 
         <div className="px-3 flex justify-center gap-4 flex-wrap">

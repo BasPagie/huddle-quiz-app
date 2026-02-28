@@ -22,7 +22,6 @@ const PlayQuiz = () => {
   // Redirect to join-quiz if no quiz data
   if (!allQuizzes || quizId === undefined || !allQuizzes[quizId]) {
     navigate("/join-quiz");
-    return null;
   }
 
   const currentQuiz: Quiz = allQuizzes[quizId];
@@ -45,7 +44,7 @@ const PlayQuiz = () => {
           allQuizzes: allQuizzes,
           userAnswers: [...userAnswers, selectedAnswer as number],
           correctAnswers: currentQuiz.questions.map(
-            (q) => q.correctOptionIndex
+            (q) => q.correctOptionIndex,
           ),
         },
       });
@@ -56,7 +55,7 @@ const PlayQuiz = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-neutral-900 text-white/90">
-      <div className="max-w-screen-xl mx-auto p-8 text-center flex flex-col gap-6">
+      <div className="max-w-7xl mx-auto p-8 text-center flex flex-col gap-6">
         <h1 className="text-2xl font-bold leading-tight">
           Quiz: {currentQuiz.title}
         </h1>

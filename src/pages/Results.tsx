@@ -1,12 +1,16 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Confetti from "react-confetti-boom";
 
 import { Button } from "@/components";
 
 const Results = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const quizIndex = location.state?.quizIndex;
+  if (quizIndex === undefined) {
+    navigate("/join-quiz");
+  }
   const allQuizzes = location.state?.allQuizzes;
   const userAnswers = location.state?.userAnswers || [];
   const correctAnswers = location.state?.correctAnswers || [];
@@ -15,6 +19,17 @@ const Results = () => {
   const questionAmount = correctAnswers.length;
 
   const resultMessage = scoreMessage(finalScore, questionAmount);
+  const userId = "123"; // Placeholder for user ID, replace with actual user ID when available
+
+  // Sumbit result to backend, just to future proof it
+  submitResult(finalScore, quizIndex, userId);
+
+  function submitResult(score: number, quizIndex: number, userId: string) {
+    console.log(
+      `Submitting result: Score=${score}, QuizIndex=${quizIndex}, UserId=${userId}`,
+    );
+    // API Call here
+  }
 
   return (
     <>
@@ -49,7 +64,7 @@ const Results = () => {
         /> */}
       </div>
       <div className="min-h-screen flex items-center justify-center bg-neutral-900 text-white/90">
-        <div className="max-w-screen-xl mx-auto p-8 text-center flex flex-col gap-6">
+        <div className="max-w-7xl mx-auto p-8 text-center flex flex-col gap-6">
           <h1 className="text-5xl font-bold leading-tight">Results</h1>
 
           <div className="px-3 flex-col justify-center  gap-4 flex-wrap">
@@ -105,7 +120,7 @@ const scoreMessage = (finalScore: number, questionAmount: number) => {
     return "Not bad!";
   }
 
-  if (questionPercentage >= 50 && questionPercentage < 99) {
+  if (questionPercentage > 50 && questionPercentage < 100) {
     return "Great job!";
   }
 

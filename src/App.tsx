@@ -19,7 +19,7 @@ const App = () => {
             autoAlpha: 1,
             duration: 0.3,
           },
-          0
+          0,
         )
         .to(
           huddleLogo.current,
@@ -29,14 +29,14 @@ const App = () => {
             repeat: -1,
             duration: 15,
           },
-          0
+          0,
         );
     }
   }, []);
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-neutral-900 text-white/90">
-      <section className="max-w-screen-xl mx-auto p-8 text-center flex flex-col gap-6">
+      <section className="max-w-7xl mx-auto p-8 text-center flex flex-col gap-6">
         <img
           ref={huddleLogo}
           id="huddleLogo"
