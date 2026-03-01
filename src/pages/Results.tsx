@@ -12,6 +12,7 @@ const Results = () => {
     navigate("/join-quiz");
   }
   const allQuizzes = location.state?.allQuizzes;
+  const currentQuizTitle = location.state?.currentQuiz.title;
   const userAnswers = location.state?.userAnswers || [];
   const correctAnswers = location.state?.correctAnswers || [];
 
@@ -21,7 +22,7 @@ const Results = () => {
   const resultMessage = scoreMessage(finalScore, questionAmount);
   const userId = "123"; // Placeholder for user ID, replace with actual user ID when available
 
-  // Sumbit result to backend, just to future proof it
+  // Submit result to backend, just to future proof it
   submitResult(finalScore, quizIndex, userId);
 
   function submitResult(score: number, quizIndex: number, userId: string) {
@@ -63,9 +64,11 @@ const Results = () => {
           fadeOutHeight={1}
         /> */}
       </div>
-      <div className="min-h-screen flex items-center justify-center bg-neutral-900 text-white/90">
+      <div className="min-h-screen flex items-center justify-center bg-neutral-900  text-white/90">
         <div className="max-w-7xl mx-auto p-8 text-center flex flex-col gap-6">
-          <h1 className="text-5xl font-bold leading-tight">Results</h1>
+          <h1 className="text-6xl font-bold leading-tight">
+            {currentQuizTitle}
+          </h1>
 
           <div className="px-3 flex-col justify-center  gap-4 flex-wrap">
             <h2 className="text-2xl font-medium leading-tight">Score:</h2>

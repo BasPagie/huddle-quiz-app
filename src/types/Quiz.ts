@@ -1,5 +1,32 @@
 import type { initialQuiz } from "../data/sampleQuiz";
 
+// Supabase Database Types (match actual DB schema)
+export interface DbOption {
+  id: string;
+  question_id: string;
+  text: string;
+  is_correct: boolean;
+  order_index: number;
+}
+
+export interface DbQuestion {
+  id: string;
+  quiz_id: string;
+  text: string;
+  order_index: number;
+  Options: DbOption[];
+}
+
+export interface DbQuiz {
+  id: string;
+  name: string;
+  week_number: number;
+  type: string;
+  created_by: string;
+  created_at: string;
+  Questions: DbQuestion[];
+}
+
 // General Quiz Type Definitions
 export interface Quiz {
   id: number;
