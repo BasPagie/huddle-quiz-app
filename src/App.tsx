@@ -50,7 +50,7 @@ const App = () => {
           alt="Huddle Logo"
           className="absolute size-max mx-auto pointer-events-none select-none opacity-0 will-change-transform"
         />
-        <section className="relative min-w-[34rem] mx-auto p-10 text-center flex flex-col gap-6 bg-black/70 rounded-3xl">
+        <section className="relative min-w-136 mx-auto p-10 text-center flex flex-col gap-6 bg-black/70 rounded-3xl">
           <h1 className="text-5xl font-bold leading-7 pt-4">Let’s Huddle!</h1>
           <p className="text-1xl font-normal leading-tight">
             Dagelijkse vragen en de wekelijkse vrijdagquiz, <br /> je vindt ze
@@ -61,7 +61,7 @@ const App = () => {
               <Link to="/join-quiz" className="flex-1">
                 <Button
                   copy="Deel mee met een Quiz!"
-                  variant="success"
+                  variant="primary"
                   fullWidth
                 />
               </Link>
@@ -75,7 +75,7 @@ const App = () => {
                 />
               </Link>
               <Link to="/create-quiz" className="flex-1">
-                <Button copy="Alle Quizzen" variant="primary" fullWidth />
+                <Button copy="Quiz Database" variant="tertiary" fullWidth />
               </Link>
             </div>
           </div>
