@@ -3,6 +3,7 @@ interface ButtonProps {
   type?: "button" | "submit" | "reset";
   variant?: "primary" | "secondary" | "success" | "danger";
   disabled?: boolean;
+  fullWidth?: boolean;
   onClick?: () => void;
 }
 
@@ -18,13 +19,14 @@ const Button = ({
   type = "button",
   variant = "primary",
   disabled = false,
+  fullWidth = false,
   onClick,
 }: ButtonProps) => {
   return (
     <button
       onClick={onClick}
       type={type}
-      className={`cursor-pointer ${variantStyles[variant]} disabled:bg-gray-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-lg font-bold py-3 px-5 rounded transition-colors duration-250`}
+      className={`cursor-pointer ${fullWidth ? "w-full" : ""} ${variantStyles[variant]} disabled:bg-gray-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-lg font-bold py-3 px-5 rounded transition-colors duration-250`}
       disabled={disabled}
     >
       {copy}
