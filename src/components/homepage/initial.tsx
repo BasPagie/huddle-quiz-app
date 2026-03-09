@@ -26,7 +26,12 @@ const InitialContent = ({ setActiveContent }: InitialContentProps) => {
             <Button copy="Vraag van de dag!" variant="secondary" fullWidth />
           </Link>
           <Link to="/create-quiz" className="flex-1">
-            <Button copy="Quiz Database" variant="tertiary" fullWidth />
+            <Button
+              copy="Quiz Database"
+              variant="tertiary"
+              fullWidth
+              disabled
+            />
           </Link>
         </div>
       </div>

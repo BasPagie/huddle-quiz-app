@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { ArrowLeft } from "iconoir-react";
 
 import InitialContent from "@/components/homepage/initial";
 import JoiningLobby from "@/components/homepage/joiningLobby";
@@ -79,7 +80,7 @@ const App = () => {
       case 1:
         return <JoiningLobby setActiveContent={setActiveContent} />;
       case 2:
-        return <JoinedLobby setActiveContent={setActiveContent} />;
+        return <JoinedLobby />;
       default:
         console.log(`Sorry, ${expr} is not valid.`);
     }
@@ -104,9 +105,19 @@ const App = () => {
             className="absolute size-max mx-auto pointer-events-none select-none opacity-50 will-change-transform"
           />
         </div>
-        <section className="relative min-w-136 mx-auto p-10 text-center flex flex-col gap-6 bg-black/70 rounded-3xl">
-          {showingContent(activeContent)}
-        </section>
+        <div className="relative flex flex-col justify-center">
+          <section className="relative min-w-136 mx-auto p-10 text-center flex flex-col gap-6 bg-black/70 rounded-3xl ">
+            {showingContent(activeContent)}
+          </section>
+          {activeContent !== 0 && (
+            <button
+              onClick={() => setActiveContent((ac) => ac - 1)}
+              className="absolute cursor-pointer flex justify-center z-99 items-center -top-15 size-13 left-0 bg-black/70 rounded-4xl hover:bg-black/50 transition-colors duration-250"
+            >
+              <ArrowLeft strokeWidth={3} width="1.5em" height="1.5em" />
+            </button>
+          )}
+        </div>
       </div>
     </main>
   );

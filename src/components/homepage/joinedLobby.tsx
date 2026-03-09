@@ -1,18 +1,8 @@
 import Avatar from "@/assets/Avatar.svg";
-import { Button } from "@/components";
 
-type JoinedLobbyProps = {
-  setActiveContent: React.Dispatch<React.SetStateAction<number>>;
-};
-
-const JoinedLobby = ({ setActiveContent }: JoinedLobbyProps) => {
+const JoinedLobby = () => {
   return (
     <>
-      <Button
-        variant="tertiary"
-        copy="terug"
-        onClick={() => setActiveContent(0)}
-      ></Button>
       <h1 className="text-5xl font-bold leading-7 pt-4">You’re here!</h1>
       <p className="text-1xl font-normal leading-tight">
         Zie je jezelf op het scherm? Niet blij met je avatar? Bewerk hem hier:
