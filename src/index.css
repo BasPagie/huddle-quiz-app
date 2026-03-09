@@ -9,6 +9,16 @@
   }
 }
 
+@layer base {
+  :root {
+    --color-orange-main: #E8B931;
+  }
+}
+
+* {
+  font-feature-settings: "ss15" 1;
+}
+
 @font-face {
   font-family: 'Mamba Regular';
   font-style: normal;

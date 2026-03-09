@@ -9,7 +9,7 @@ interface ButtonProps {
 
 const variantStyles = {
   primary:
-    "enabled:bg-yellow-600 enabled:text-neutral-900 enabled:hover:bg-yellow-700",
+    "enabled:bg-[var(--color-orange-main)] enabled:text-neutral-900 enabled:hover:bg-yellow-500",
   secondary:
     "enabled:bg-white enabled:text-neutral-900 enabled:hover:bg-neutral-200",
   tertiary:
@@ -30,7 +30,7 @@ const Button = ({
     <button
       onClick={onClick}
       type={type}
-      className={`cursor-pointer ${fullWidth ? "w-full" : ""} ${variantStyles[variant]} disabled:bg-gray-500 disabled:opacity-40 disabled:cursor-not-allowed text-lg font-bold py-3 px-5 rounded-[999px] transition-colors duration-250`}
+      className={`cursor-pointer ${fullWidth ? "w-full" : ""} ${variantStyles[variant]} disabled:bg-gray-500 disabled:opacity-40 disabled:cursor-not-allowed text-1xl font-bold py-5 px-6 rounded-[999px] transition-colors duration-250`}
       disabled={disabled}
     >
       {copy}

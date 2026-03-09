@@ -1,40 +1,89 @@
-import { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 
-import { Button } from "@/components";
+import InitialContent from "@/components/homepage/initial";
+import JoiningLobby from "@/components/homepage/joiningLobby";
+import JoinedLobby from "@/components/homepage/joinedLobby";
+
 import defaultBg from "@/assets/default_bg.jpg";
 import huddleWhite from "@/assets/huddle-white.svg";
 import "./App.css";
 
+const scaleMap = { 0: 1, 1: 1.3, 2: 1.6 };
+
 const App = () => {
+  const [activeContent, setActiveContent] = useState(0);
+  const [scaleAnimationAllowed, setScaleAnimationAllowed] = useState(false);
   const huddleLogo = useRef<HTMLImageElement>(null);
+  const logoContainer = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (huddleLogo.current) {
-      const logoTl = gsap.timeline();
-      logoTl
-        .to(
+    const ctx = gsap.context(() => {
+      if (huddleLogo.current) {
+        const logoTl = gsap.timeline();
+        logoTl.to(
           huddleLogo.current,
           {
-            ease: "power1.out",
-            autoAlpha: 0.5,
-            duration: 0.3,
-          },
-          0,
-        )
-        .to(
-          huddleLogo.current,
-          {
-            rotation: 360,
+            rotation: "+=360",
             ease: "none",
             repeat: -1,
-            duration: 55,
+            duration: 60,
           },
           0,
         );
-    }
+      }
+
+      if (logoContainer.current) {
+        const hasPlayedIntro = localStorage.getItem("introPlayed") === "true";
+
+        if (hasPlayedIntro) {
+          // Skip intro, just enable scale animation immediately
+          setScaleAnimationAllowed(true);
+        } else {
+          const containerTl = gsap.timeline({
+            onComplete: () => {
+              setScaleAnimationAllowed(true);
+              localStorage.setItem("introPlayed", "true");
+            },
+          });
+          containerTl.from(logoContainer.current, {
+            ease: "power2.out",
+            autoAlpha: 0,
+            rotation: -100,
+            scale: 1.75,
+            duration: 1.5,
+          });
+        }
+      }
+    });
+
+    return () => ctx.revert();
   }, []);
+
+  useEffect(() => {
+    if (!scaleAnimationAllowed) return;
+
+    if (logoContainer.current) {
+      gsap.to(logoContainer.current, {
+        scale: scaleMap[activeContent as keyof typeof scaleMap],
+        ease: "power2.inOut",
+        duration: 0.6,
+      });
+    }
+  }, [activeContent, scaleAnimationAllowed]);
+
+  const showingContent = (expr: number) => {
+    switch (expr) {
+      case 0:
+        return <InitialContent setActiveContent={setActiveContent} />;
+      case 1:
+        return <JoiningLobby setActiveContent={setActiveContent} />;
+      case 2:
+        return <JoinedLobby setActiveContent={setActiveContent} />;
+      default:
+        console.log(`Sorry, ${expr} is not valid.`);
+    }
+  };
 
   return (
     <main className="h-screen flex items-center p-10 box-border justify-center bg-black text-white/90">
@@ -43,42 +92,20 @@ const App = () => {
         style={{ backgroundImage: `url(${defaultBg})` }}
       >
         <div className="absolute inset-0 bg-black/30 rounded-[64px]" />
-        <img
-          ref={huddleLogo}
-          id="huddleLogo"
-          src={huddleWhite}
-          alt="Huddle Logo"
-          className="absolute size-max mx-auto pointer-events-none select-none opacity-0 will-change-transform"
-        />
+        <div
+          ref={logoContainer}
+          className="flex justify-center items-center absolute inset-0 mx-auto pointer-events-none select-none will-change-transform"
+        >
+          <img
+            ref={huddleLogo}
+            id="huddleLogo"
+            src={huddleWhite}
+            alt="Huddle Logo"
+            className="absolute size-max mx-auto pointer-events-none select-none opacity-50 will-change-transform"
+          />
+        </div>
         <section className="relative min-w-136 mx-auto p-10 text-center flex flex-col gap-6 bg-black/70 rounded-3xl">
-          <h1 className="text-5xl font-bold leading-7 pt-4">Let’s Huddle!</h1>
-          <p className="text-1xl font-normal leading-tight">
-            Dagelijkse vragen en de wekelijkse vrijdagquiz, <br /> je vindt ze
-            hier!
-          </p>
-          <div className="px-3 gap-4 flex flex-col justify-center">
-            <div className="flex justify-center gap-4 ">
-              <Link to="/join-quiz" className="flex-1">
-                <Button
-                  copy="Deel mee met een Quiz!"
-                  variant="primary"
-                  fullWidth
-                />
-              </Link>
-            </div>
-            <div className="flex justify-center gap-4">
-              <Link to="/join-quiz" className="flex-1">
-                <Button
-                  copy="Vraag van de dag!"
-                  variant="secondary"
-                  fullWidth
-                />
-              </Link>
-              <Link to="/create-quiz" className="flex-1">
-                <Button copy="Quiz Database" variant="tertiary" fullWidth />
-              </Link>
-            </div>
-          </div>
+          {showingContent(activeContent)}
         </section>
       </div>
     </main>
