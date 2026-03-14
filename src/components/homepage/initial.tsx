@@ -15,7 +15,7 @@ const InitialContent = ({ setActiveContent }: InitialContentProps) => {
       <div className="px-3 gap-4 flex flex-col justify-center">
         <div className="flex justify-center gap-4 ">
           <Button
-            copy="Deel mee met een Quiz!"
+            copy="Doe mee met een Quiz!"
             variant="primary"
             fullWidth
             onClick={() => setActiveContent(1)}

@@ -9,7 +9,7 @@ interface ButtonProps {
 
 const variantStyles = {
   primary:
-    "enabled:bg-[var(--color-orange-main)] enabled:text-neutral-900 enabled:hover:bg-yellow-500",
+    "enabled:bg-[var(--color-orange-main)] enabled:text-neutral-900 enabled:hover:bg-yellow-600",
   secondary:
     "enabled:bg-white enabled:text-neutral-900 enabled:hover:bg-neutral-200",
   tertiary:

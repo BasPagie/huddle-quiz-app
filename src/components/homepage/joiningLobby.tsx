@@ -32,7 +32,9 @@ const JoiningLobby = ({ setActiveContent }: JoiningLobbyProps) => {
           />
         </form>
         <div className="flex flex-col flex-0 justify-center items-center gap-4">
-          <p className="text-sm text-white/70">Of doe mee met je smartphone!</p>
+          <p className="text-sm text-white/70 -mt-1.5">
+            Of doe mee met je smartphone!
+          </p>
           <img src={qrCode} alt="qr code" className="w-20 h-20" />
         </div>
       </div>

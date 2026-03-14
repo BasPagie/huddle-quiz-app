@@ -27,8 +27,8 @@ const JoinQuiz = () => {
           Options (id, text, is_correct, order_index)
         )
       `);
-      console.log("Fetched quizzes from Supabase:", data);
       if (data) setQuizzes(data);
+      console.log("Fetched quizzes from Supabase:", data);
     }
     getQuizzes();
   }, []);
@@ -74,12 +74,9 @@ const JoinQuiz = () => {
 
         <ul className="text-left">
           {quizzes.map(({ id, name, type, week_number }) => (
-            <ul key={id}>
-              <li>{id}</li>
-              <li>{name}</li>
-              <li>{type}</li>
-              <li>week: {week_number}</li>
-            </ul>
+            <li key={id}>
+              {name} - Week {week_number} ({type})
+            </li>
           ))}
         </ul>
       </section>
