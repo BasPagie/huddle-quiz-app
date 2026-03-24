@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { DEFAULT_QUESTION, DEFAULT_USER_ID, DEFAULT_USER_NAME } from '@/constants';
 import { initialQuiz, sampleQuizzes } from '@/data/sampleQuiz';
 import { generateQuizId, loadQuizzes, saveQuizLocalStorage } from '@/services';
-import type { UseQuizFormReturn } from '@/types';
+import type { Question, UseQuizFormReturn } from '@/types';
 
 export const useQuizForm = (): UseQuizFormReturn => {
     const [title, setTitle] = useState("");
@@ -12,7 +12,7 @@ export const useQuizForm = (): UseQuizFormReturn => {
     // Question management
     const handleQuestionUpdate = (
         questionIndex: number,
-        updatedQuestion: (typeof initialQuiz.questions)[0]
+        updatedQuestion: Question
     ) => {
         setQuestions(
             questions.map((q, i) => (i === questionIndex ? updatedQuestion : q))

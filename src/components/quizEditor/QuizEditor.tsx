@@ -24,7 +24,7 @@ const QuizEditor = ({
     const updatedQuestion = {
       ...question,
       options: question.options.map((opt, i) =>
-        i === optionIndex ? text : opt
+        i === optionIndex ? text : opt,
       ),
     };
     onQuestionUpdate(questionIndex, updatedQuestion);
@@ -49,9 +49,16 @@ const QuizEditor = ({
 
   const handleRemoveOption = (optionIndex: number) => {
     if (question.options.length <= MIN_OPTIONS) return;
+    let newCorrectIndex = question.correctOptionIndex;
+    if (optionIndex === newCorrectIndex) {
+      newCorrectIndex = 0; // reset to first
+    } else if (optionIndex < newCorrectIndex) {
+      newCorrectIndex--; // shift down
+    }
     const updatedQuestion = {
       ...question,
       options: question.options.filter((_, i) => i !== optionIndex),
+      correctOptionIndex: newCorrectIndex,
     };
     onQuestionUpdate(questionIndex, updatedQuestion);
   };

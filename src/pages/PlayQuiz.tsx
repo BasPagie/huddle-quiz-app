@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
 
 import { Button, Card } from "@/components";
 import type { Quiz } from "@/types";
@@ -19,9 +19,8 @@ const PlayQuiz = () => {
   const quizId = location.state?.selectedQuiz;
   const allQuizzes = location.state?.allQuizzes;
 
-  // Redirect to join-quiz if no quiz data
   if (!allQuizzes || quizId === undefined || !allQuizzes[quizId]) {
-    navigate("/join-quiz");
+    return <Navigate to="/join-quiz" replace />;
   }
 
   const currentQuiz: Quiz = allQuizzes[quizId];

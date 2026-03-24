@@ -22,7 +22,7 @@ const InitialContent = ({ setActiveContent }: InitialContentProps) => {
           />
         </div>
         <div className="flex justify-center gap-4">
-          <Link to="/join-quiz" className="flex-1">
+          <Link to="/daily-quiz" className="flex-1">
             <Button copy="Vraag van de dag!" variant="secondary" fullWidth />
           </Link>
           <Link to="/create-quiz" className="flex-1">

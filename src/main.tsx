@@ -10,11 +10,13 @@ import Results from "./pages/Results.tsx";
 import PageNotFound from "./pages/404.tsx";
 
 import "./index.css";
+import DailyQuestions from "./pages/DailyQuestions.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/create-quiz", element: <CreateQuiz /> },
   { path: "/join-quiz", element: <JoinQuiz /> },
+  { path: "/daily-quiz", element: <DailyQuestions /> },
   { path: "/play-quiz", element: <PlayQuiz /> },
   { path: "/results", element: <Results /> },
   { path: "*", element: <PageNotFound /> },
@@ -23,5 +25,5 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <RouterProvider router={router} />
-  </StrictMode>
+  </StrictMode>,
 );

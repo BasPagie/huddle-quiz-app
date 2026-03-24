@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ArrowLeft } from "iconoir-react";
 
-import InitialContent from "@/components/homepage/initial";
-import JoiningLobby from "@/components/homepage/joiningLobby";
-import JoinedLobby from "@/components/homepage/joinedLobby";
+import InitialContent from "@/components/homepage/Initial";
+import JoiningLobby from "@/components/homepage/JoiningLobby";
+import JoinedLobby from "@/components/homepage/JoinedLobby";
 
 import defaultBg from "@/assets/default_bg.jpg";
 import huddleWhite from "@/assets/huddle-white.svg";
@@ -82,7 +82,7 @@ const App = () => {
       case 2:
         return <JoinedLobby />;
       default:
-        console.log(`Sorry, ${expr} is not valid.`);
+        return <p>Unknown content state</p>;
     }
   };
 

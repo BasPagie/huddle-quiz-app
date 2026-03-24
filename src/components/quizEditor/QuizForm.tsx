@@ -19,11 +19,7 @@ function QuizForm({
   return (
     <section className="max-w-[60%] mx-auto p-8 text-center flex flex-col gap-6 items-center">
       <h1 className="text-2xl font-bold leading-tight">Create a quiz!</h1>
-      <form
-        onSubmit={runForm}
-        method="post"
-        className="flex flex-col items-center"
-      >
+      <form onSubmit={runForm} className="flex flex-col items-center">
         <input
           type="text"
           id="quizTitle"

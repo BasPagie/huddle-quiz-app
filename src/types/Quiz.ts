@@ -1,5 +1,3 @@
-import type { initialQuiz } from "../data/sampleQuiz";
-
 // Supabase Database Types (match actual DB schema)
 export interface DbOption {
   id: string;
@@ -28,37 +26,26 @@ export interface DbQuiz {
 }
 
 // General Quiz Type Definitions
+export interface Question {
+  id: number;
+  text: string;
+  options: string[];
+  correctOptionIndex: number;
+}
+
 export interface Quiz {
   id: number;
   title: string;
   userName: string;
   userId: string;
-  questions: {
-    id: number;
-    text: string;
-    options: string[];
-    correctOptionIndex: number;
-  }[];
+  questions: Question[];
 }
 
 export interface QuizFormProps {
   title?: string;
-  questions: {
-    id: number;
-    text: string;
-    options: string[];
-    correctOptionIndex: number;
-  }[];
+  questions: Question[];
   onTitleChange: (newTitle: string) => void;
-  onQuestionUpdate: (
-    questionIndex: number,
-    updatedQuestion: {
-      id: number;
-      text: string;
-      options: string[];
-      correctOptionIndex: number;
-    }
-  ) => void;
+  onQuestionUpdate: (questionIndex: number, updatedQuestion: Question) => void;
   onQuestionAdd: () => void;
   onQuestionRemove: (questionIndex: number) => void;
   runForm: (e: React.FormEvent) => void;
@@ -66,21 +53,8 @@ export interface QuizFormProps {
 
 export interface QuizEditorProps {
   questionIndex: number;
-  question: {
-    id: number;
-    text: string;
-    options: string[];
-    correctOptionIndex: number;
-  };
-  onQuestionUpdate: (
-    questionIndex: number,
-    updatedQuestion: {
-      id: number;
-      text: string;
-      options: string[];
-      correctOptionIndex: number;
-    }
-  ) => void;
+  question: Question;
+  onQuestionUpdate: (questionIndex: number, updatedQuestion: Question) => void;
   onQuestionRemove: (questionIndex: number) => void;
 }
 
@@ -96,9 +70,9 @@ export interface OptionCardProps {
 
 export interface UseQuizFormReturn {
   title: string;
-  questions: typeof initialQuiz.questions;
+  questions: Question[];
   setTitle: (title: string) => void;
-  handleQuestionUpdate: (index: number, question: typeof initialQuiz.questions[0]) => void;
+  handleQuestionUpdate: (index: number, question: Question) => void;
   addQuestion: () => void;
   removeQuestion: (index: number) => void;
   saveQuiz: () => boolean;

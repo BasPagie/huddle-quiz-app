@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/lib/supabaseClient";
 import { Button, Card } from "@/components";
 import { sampleQuizzes } from "@/data/sampleQuiz";
-import { loadQuizzes, clearQuizzes } from "@/services";
+import { loadQuizzes } from "@/services";
 import type { Quiz } from "@/types";
 
 type RemoteQuiz = {
@@ -14,7 +14,7 @@ type RemoteQuiz = {
   week_number: number;
 };
 
-const JoinQuiz = () => {
+const DailyQuestions = () => {
   const navigate = useNavigate();
   const [userQuizzes] = useState<Quiz[]>(() => loadQuizzes());
   const [quizzes, setQuizzes] = useState<RemoteQuiz[]>([]);
@@ -41,7 +41,7 @@ const JoinQuiz = () => {
   return (
     <main className="min-h-screen flex items-center justify-center bg-neutral-900 text-white/90">
       <section className="max-w-7xl mx-auto p-8 text-center flex flex-col gap-6">
-        <h1 className="text-5xl font-bold leading-tight">Join a quiz!</h1>
+        <h1 className="text-5xl font-bold leading-tight">Daily Questions</h1>
 
         <div className="px-3 flex justify-center gap-4 flex-wrap">
           {allQuizzes &&
@@ -67,12 +67,6 @@ const JoinQuiz = () => {
           <Link to="/">
             <Button copy="Back home" variant="primary" />
           </Link>
-          <Button
-            copy="Clear Local Storage"
-            variant="secondary"
-            disabled={userQuizzes.length === 0}
-            onClick={clearQuizzes}
-          />
         </div>
 
         <ul className="text-left">
@@ -87,4 +81,4 @@ const JoinQuiz = () => {
   );
 };
 
-export default JoinQuiz;
+export default DailyQuestions;

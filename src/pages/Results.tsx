@@ -1,20 +1,17 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import Confetti from "react-confetti-boom";
 
 import { Button } from "@/components";
+import { useEffect } from "react";
 
 const Results = () => {
   const location = useLocation();
-  const navigate = useNavigate();
 
   const quizIndex = location.state?.quizIndex;
-  if (quizIndex === undefined) {
-    navigate("/join-quiz");
-  }
   const allQuizzes = location.state?.allQuizzes;
-  const currentQuizTitle = location.state?.currentQuiz.title;
-  const userAnswers = location.state?.userAnswers || [];
-  const correctAnswers = location.state?.correctAnswers || [];
+  const currentQuizTitle = location.state?.currentQuiz?.title;
+  const userAnswers: number[] = location.state?.userAnswers || [];
+  const correctAnswers: number[] = location.state?.correctAnswers || [];
 
   const finalScore = scoreCalculation(userAnswers, correctAnswers);
   const questionAmount = correctAnswers.length;
@@ -22,14 +19,18 @@ const Results = () => {
   const resultMessage = scoreMessage(finalScore, questionAmount);
   const userId = "123"; // Placeholder for user ID, replace with actual user ID when available
 
-  // Submit result to backend, just to future proof it
-  submitResult(finalScore, quizIndex, userId);
+  // Submit result to backend, just to future proof
+  useEffect(() => {
+    if (quizIndex !== undefined) {
+      console.log(
+        `Submitting result: Score=${finalScore}, QuizIndex=${quizIndex}, UserId=${userId}`,
+      );
+      // API Call here
+    }
+  }, [finalScore, quizIndex, userId]);
 
-  function submitResult(score: number, quizIndex: number, userId: string) {
-    console.log(
-      `Submitting result: Score=${score}, QuizIndex=${quizIndex}, UserId=${userId}`,
-    );
-    // API Call here
+  if (quizIndex === undefined) {
+    return <Navigate to="/join-quiz" replace />;
   }
 
   return (

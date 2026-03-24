@@ -11,7 +11,7 @@ export const loadQuizzes = () => {
 
 export const saveQuizLocalStorage = (
   newQuiz: Quiz,
-  existingQuizzes: Quiz[]
+  existingQuizzes: Quiz[],
 ) => {
   const updated = [...existingQuizzes, newQuiz];
   localStorage.setItem("quizzes", JSON.stringify(updated));
@@ -20,11 +20,11 @@ export const saveQuizLocalStorage = (
 
 export const generateQuizId = (existingQuizzes: Quiz[]) => {
   return existingQuizzes.length > 0
-    ? Math.max(...existingQuizzes.map((q) => q.id))
-    : -1;
+    ? Math.max(...existingQuizzes.map((q) => q.id)) + 1
+    : 0;
 };
 
 export const clearQuizzes = () => {
-  localStorage.clear();
+  localStorage.removeItem("quizzes");
   window.location.reload();
 };

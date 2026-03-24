@@ -85,7 +85,7 @@ const sampleQuizzes: Quiz[] = [
   }
 ];
 
-const initialQuiz = {
+const initialQuiz: Quiz = {
   id: 0,
   title: "Enter quiz name...",
   userId: "user-1",
